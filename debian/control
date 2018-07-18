@@ -1,0 +1,13 @@
+Source: ros-bouncy-pluginlib
+Section: misc
+Priority: extra
+Maintainer: Mikael Arguedas <mikael@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-bouncy-ament-cmake, ros-bouncy-ament-index-cpp, ros-bouncy-class-loader, ros-bouncy-rcutils, ros-bouncy-tinyxml2-vendor, ros-bouncy-ros-workspace
+Homepage: http://www.ros.org/wiki/pluginlib
+Standards-Version: 3.9.2
+
+Package: ros-bouncy-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-bouncy-ament-index-cpp, ros-bouncy-class-loader, ros-bouncy-rcutils, ros-bouncy-tinyxml2-vendor, ros-bouncy-ros-workspace
+Description: The pluginlib package provides tools for writing and dynamically loading plugins using the ROS build infrastructure.
+ To work, these tools require plugin providers to register their plugins in the package.xml of their package.
