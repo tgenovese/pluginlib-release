@@ -1,3 +1,29 @@
+## pluginlib (crystal) - 2.2.0-0
+
+The packages in the `pluginlib` repository were released into the `crystal` distro by running `/usr/bin/bloom-release -n -r crystal pluginlib --override-release-repository-push-url git@github.com:ros2-gbp/pluginlib-release` on `Tue, 20 Nov 2018 18:49:58 -0000`
+
+These packages were released:
+- `pluginlib`
+- `test_pluginlib`
+- `test_pluginlib_fixture`
+
+Version of package(s) in repository `pluginlib`:
+
+- upstream repository: https://github.com/ros/pluginlib.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `2.2.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.9`
+- catkin_pkg version: `0.4.8`
+- rosdep version: `0.13.0`
+- rosdistro version: `0.7.0`
+- vcstools version: `0.1.40`
+
+
 ## pluginlib (bouncy) - 2.1.1-0
 
 The packages in the `pluginlib` repository were released into the `bouncy` distro by running `/usr/bin/bloom-release pluginlib -r bouncy -t bouncy` on `Wed, 18 Jul 2018 04:32:03 -0000`
