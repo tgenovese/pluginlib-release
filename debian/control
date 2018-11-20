@@ -1,0 +1,12 @@
+Source: ros-crystal-test-pluginlib-fixture
+Section: misc
+Priority: extra
+Maintainer: Steven! Ragnarök <stevenragnarok@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-crystal-ament-cmake, ros-crystal-ament-index-cpp, ros-crystal-class-loader, ros-crystal-pluginlib, ros-crystal-rcutils, ros-crystal-tinyxml2-vendor, ros-crystal-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-crystal-test-pluginlib-fixture
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-crystal-ament-index-cpp, ros-crystal-class-loader, ros-crystal-pluginlib, ros-crystal-rcutils, ros-crystal-tinyxml2-vendor, ros-crystal-ros-workspace
+Description: Test library fixture for testing the pluginlib package.
