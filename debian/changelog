@@ -1,0 +1,8 @@
+ros-crystal-test-pluginlib (2.2.0-0bionic) bionic; urgency=high
+
+  * Reorganized tests into fixture and consumer packages. (#130 <https://github.com/ros/pluginlib/issues/130>)
+  * Contributors: Michael Carroll
+
+ -- Steven! Ragnarök <stevenragnarok@osrfoundation.org>  Tue, 20 Nov 2018 08:00:00 -0000
+
+

@@ -1,0 +1,12 @@
+Source: ros-crystal-test-pluginlib
+Section: misc
+Priority: extra
+Maintainer: Steven! Ragnarök <stevenragnarok@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-crystal-ament-cmake, ros-crystal-ament-cmake-gtest, ros-crystal-pluginlib, ros-crystal-rcutils, ros-crystal-test-pluginlib-fixture, ros-crystal-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-crystal-test-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-crystal-ros-workspace
+Description: Test package for the pluginlib package.
