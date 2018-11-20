@@ -1,0 +1,13 @@
+Source: ros-crystal-pluginlib
+Section: misc
+Priority: extra
+Maintainer: Steven! Ragnarök <stevenragnarok@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-crystal-ament-cmake, ros-crystal-ament-index-cpp, ros-crystal-class-loader, ros-crystal-rcutils, ros-crystal-tinyxml2-vendor, ros-crystal-ros-workspace
+Homepage: http://www.ros.org/wiki/pluginlib
+Standards-Version: 3.9.2
+
+Package: ros-crystal-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-crystal-ament-index-cpp, ros-crystal-class-loader, ros-crystal-rcutils, ros-crystal-tinyxml2-vendor, ros-crystal-ros-workspace
+Description: The pluginlib package provides tools for writing and dynamically loading plugins using the ROS build infrastructure.
+ To work, these tools require plugin providers to register their plugins in the package.xml of their package.
