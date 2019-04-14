@@ -33,6 +33,16 @@ install(
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
 
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_FLAGS MATCHES "-stdlib=libc\\+\\+")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+      set(FILESYSTEM_LIB c++experimental)
+    else()
+      set(FILESYSTEM_LIB c++fs)
+    endif()
+  else()
+    set(FILESYSTEM_LIB stdc++fs)
+  endif()
+
   set(prefix "${CMAKE_CURRENT_BINARY_DIR}/prefix")
 
   # Write the necessary files for ament to detect a package.
@@ -80,8 +90,8 @@ if(BUILD_TESTING)
     )
     target_compile_definitions(${PROJECT_NAME}_unique_ptr_test PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
-    if(CMAKE_COMPILER_IS_GNUCXX)
-      target_link_libraries(${PROJECT_NAME}_unique_ptr_test stdc++fs)
+    if(UNIX AND NOT APPLE)
+      target_link_libraries(${PROJECT_NAME}_unique_ptr_test ${FILESYSTEM_LIB})
     endif()
     add_dependencies(${PROJECT_NAME}_unique_ptr_test test_plugins)
   endif()
@@ -101,8 +111,8 @@ if(BUILD_TESTING)
     )
     target_compile_definitions(${PROJECT_NAME}_utest PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
-    if(CMAKE_COMPILER_IS_GNUCXX)
-      target_link_libraries(${PROJECT_NAME}_utest stdc++fs)
+    if(UNIX AND NOT APPLE)
+      target_link_libraries(${PROJECT_NAME}_utest ${FILESYSTEM_LIB})
     endif()
     add_dependencies(${PROJECT_NAME}_utest test_plugins)
   endif()
