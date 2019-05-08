@@ -1,0 +1,13 @@
+Source: ros-dashing-pluginlib
+Section: misc
+Priority: extra
+Maintainer: Steven! Ragnarök <stevenragnarok@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-dashing-ament-cmake, ros-dashing-ament-cmake-gtest, ros-dashing-ament-index-cpp, ros-dashing-class-loader, ros-dashing-rcutils, ros-dashing-tinyxml2-vendor, ros-dashing-ros-workspace
+Homepage: http://www.ros.org/wiki/pluginlib
+Standards-Version: 3.9.2
+
+Package: ros-dashing-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-dashing-ament-index-cpp, ros-dashing-class-loader, ros-dashing-rcutils, ros-dashing-tinyxml2-vendor, ros-dashing-ros-workspace
+Description: The pluginlib package provides tools for writing and dynamically loading plugins using the ROS build infrastructure.
+ To work, these tools require plugin providers to register their plugins in the package.xml of their package.
