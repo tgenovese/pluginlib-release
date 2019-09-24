@@ -1,0 +1,13 @@
+Source: ros-eloquent-pluginlib
+Section: misc
+Priority: extra
+Maintainer: Steven! Ragnarök <stevenragnarok@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-eloquent-ament-cmake, ros-eloquent-ament-cmake-gtest, ros-eloquent-ament-index-cpp, ros-eloquent-class-loader, ros-eloquent-rcutils, ros-eloquent-tinyxml2-vendor, ros-eloquent-ros-workspace
+Homepage: http://www.ros.org/wiki/pluginlib
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-eloquent-ament-index-cpp, ros-eloquent-class-loader, ros-eloquent-rcutils, ros-eloquent-tinyxml2-vendor, ros-eloquent-ros-workspace
+Description: The pluginlib package provides tools for writing and dynamically loading plugins using the ROS build infrastructure.
+ To work, these tools require plugin providers to register their plugins in the package.xml of their package.
