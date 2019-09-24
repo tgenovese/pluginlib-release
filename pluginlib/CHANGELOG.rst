@@ -3,9 +3,9 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-2.3.2 (2019-07-30)
+2.4.0 (2019-09-18)
 ------------------
-* Export tinyxml2 libraries downstream. (`#162 <https://github.com/ros/pluginlib/issues/162>`_)
+* Export tinyxml2 libraries downstream. (`#154 <https://github.com/ros/pluginlib/issues/154>`_)
 * Contributors: Esteve Fernandez
 
 2.3.1 (2019-05-08)
