@@ -1,0 +1,13 @@
+Source: ros-foxy-pluginlib
+Section: misc
+Priority: optional
+Maintainer: Steven! Ragnarök <stevenragnarok@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), ros-foxy-ament-cmake, ros-foxy-ament-cmake-gtest, ros-foxy-ament-index-cpp, ros-foxy-class-loader, ros-foxy-rcpputils, ros-foxy-rcutils, ros-foxy-tinyxml2-vendor, ros-foxy-ros-workspace
+Homepage: http://www.ros.org/wiki/pluginlib
+Standards-Version: 3.9.2
+
+Package: ros-foxy-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-foxy-ament-index-cpp, ros-foxy-class-loader, ros-foxy-rcpputils, ros-foxy-rcutils, ros-foxy-tinyxml2-vendor, ros-foxy-ros-workspace
+Description: The pluginlib package provides tools for writing and dynamically loading plugins using the ROS build infrastructure.
+ To work, these tools require plugin providers to register their plugins in the package.xml of their package.
