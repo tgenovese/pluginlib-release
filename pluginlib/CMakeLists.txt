@@ -14,11 +14,22 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(class_loader REQUIRED)
 find_package(rcutils REQUIRED)
+find_package(rcpputils REQUIRED)
 find_package(tinyxml2_vendor REQUIRED)
 find_package(TinyXML2 REQUIRED)  # provided by tinyxml2 upstream, or tinyxml2_vendor
 
-ament_export_dependencies(ament_index_cpp class_loader rcutils tinyxml2_vendor TinyXML2)
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME} INTERFACE
+  "$<INSTALL_INTERFACE:include>")
+ament_target_dependencies(${PROJECT_NAME} INTERFACE
+  ament_index_cpp class_loader rcutils rcpputils tinyxml2_vendor TinyXML2)
+ament_export_dependencies(ament_index_cpp class_loader rcutils rcpputils tinyxml2_vendor TinyXML2)
 ament_export_include_directories(include)
+ament_export_targets(${PROJECT_NAME})
+
+install(
+  TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
+)
 
 install(
   DIRECTORY cmake
@@ -33,11 +44,18 @@ install(
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
 
+  # NOTE this block is also defined in pluginlib-extras.cmake
+  # changes here need to be duplicated there
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_FLAGS MATCHES "-stdlib=libc\\+\\+")
     if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+      # Before LLVM 7.0, filesystem is part of experimental
       set(FILESYSTEM_LIB c++experimental)
-    else()
+    elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+      # Before LLVM 9.0 you have to manually link the fs library
       set(FILESYSTEM_LIB c++fs)
+    else()
+      # Starting at LLVM 9.0 filesystem is built in
+      set(FILESYSTEM_LIB)
     endif()
   else()
     set(FILESYSTEM_LIB stdc++fs)
@@ -85,6 +103,7 @@ if(BUILD_TESTING)
       ${PROJECT_NAME}_unique_ptr_test
       class_loader
       ament_index_cpp
+      rcpputils
       rcutils
       TinyXML2
     )
@@ -106,6 +125,7 @@ if(BUILD_TESTING)
       ${PROJECT_NAME}_utest
       class_loader
       ament_index_cpp
+      rcpputils
       rcutils
       TinyXML2
     )
