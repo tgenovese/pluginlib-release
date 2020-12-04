@@ -3,38 +3,10 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-4.1.1 (2020-08-27)
+2.4.2 (2020-12-04)
 ------------------
-* Fix cmake 3.5 compatibility (`#203 <https://github.com/ros/pluginlib/issues/203>`_)
-* Contributors: Karsten Knese
-
-4.1.0 (2020-08-25)
-------------------
-* Add function for same-package pluginlib tests (`#201 <https://github.com/ros/pluginlib/issues/201>`_)
-* Contributors: Shane Loretz
-
-4.0.0 (2020-08-06)
-------------------
-* Remove deprecated boost functions (`#199 <https://github.com/ros/pluginlib/issues/199>`_)
-* Contributors: Shane Loretz
-
-2.5.2 (2020-05-26)
-------------------
-* Link against tinyxml2 correctly (`#190 <https://github.com/ros/pluginlib/issues/190>`_)
-* Export tinyxml2 directly from pluginlib-extras.cmake (`#192 <https://github.com/ros/pluginlib/issues/192>`_)
-* Contributors: Karsten Knese, Sean Yen
-
-2.5.1 (2020-05-07)
-------------------
-* Add missing export of stdc++fs and TinyXML2 via modern CMake (`#189 <https://github.com/ros/pluginlib/issues/189>`_)
-* Contributors: Dirk Thomas
-
-2.5.0 (2020-04-25)
-------------------
-* Export CMake targets in a addition to include directories / libraries. (`#188 <https://github.com/ros/pluginlib/issues/188>`_)
-* Use rcpputils for library names. (`#186 <https://github.com/ros/pluginlib/issues/186>`_)
-* Fix filesystem linking on clang9. (`#183 <https://github.com/ros/pluginlib/issues/183>`_)
-* Contributors: Alejandro Hernández Cordero, Dirk Thomas, Emerson Knapp
+* Fix filesystem linking on clang9 (`#183 <https://github.com/ros/pluginlib/issues/183>`_) (`#185 <https://github.com/ros/pluginlib/issues/185>`_)
+* Contributors: Jose Pardeiro
 
 2.4.1 (2019-10-23)
 ------------------

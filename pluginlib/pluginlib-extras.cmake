@@ -19,7 +19,6 @@ ament_register_extension("ament_package" "pluginlib"
   "pluginlib_package_hook.cmake")
 
 include("${pluginlib_DIR}/pluginlib_export_plugin_description_file.cmake")
-include("${pluginlib_DIR}/pluginlib_enable_plugin_testing.cmake")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_FLAGS MATCHES "-stdlib=libc\\+\\+")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
@@ -41,3 +40,7 @@ if(UNIX AND NOT APPLE)
   # ament_export_libraries() because it is not absolute and cannot be found with find_library
   list(APPEND pluginlib_LIBRARIES ${FILESYSTEM_LIB})
 endif()
+
+find_package(tinyxml2_vendor REQUIRED)
+find_package(TinyXML2 REQUIRED)
+list(APPEND pluginlib_LIBRARIES ${TinyXML2_LIBRARIES})
