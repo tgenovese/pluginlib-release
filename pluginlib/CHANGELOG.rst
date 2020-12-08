@@ -3,10 +3,30 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-2.5.3 (2020-12-08)
+4.1.2 (2020-12-08)
 ------------------
-* Add QNX C++ fs library compiler option (`#205 <https://github.com/ros/pluginlib/issues/205>`_) (`#213 <https://github.com/ros/pluginlib/issues/213>`_)
-* Contributors: Ahmed Sobhy
+* Check for NULL in XMLElement::Attribute
+* Check for NULL in XMLElement::GetText
+* Check for NULL in XMLNode::Value
+* Remove unused variable output_library (`#211 <https://github.com/ros/pluginlib/issues/211>`_)
+* Make Chris a maintainer of pluginlib. (`#210 <https://github.com/ros/pluginlib/issues/210>`_)
+* Add QNX C++ fs library compiler option (`#205 <https://github.com/ros/pluginlib/issues/205>`_)
+* Contributors: Ahmed Sobhy, Chris Lalancette, Jeremie Deray, Shane Loretz
+
+4.1.1 (2020-08-27)
+------------------
+* Fix cmake 3.5 compatibility (`#203 <https://github.com/ros/pluginlib/issues/203>`_)
+* Contributors: Karsten Knese
+
+4.1.0 (2020-08-25)
+------------------
+* Add function for same-package pluginlib tests (`#201 <https://github.com/ros/pluginlib/issues/201>`_)
+* Contributors: Shane Loretz
+
+4.0.0 (2020-08-06)
+------------------
+* Remove deprecated boost functions (`#199 <https://github.com/ros/pluginlib/issues/199>`_)
+* Contributors: Shane Loretz
 
 2.5.2 (2020-05-26)
 ------------------

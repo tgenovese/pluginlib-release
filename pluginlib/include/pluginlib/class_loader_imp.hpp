@@ -169,41 +169,6 @@ std::shared_ptr<T> ClassLoader<T>::createSharedInstance(const std::string & look
 }
 #endif
 
-#ifndef PLUGINLIB__DISABLE_BOOST_FUNCTIONS
-template<class T>
-boost::shared_ptr<T> ClassLoader<T>::createInstance(const std::string & lookup_name)
-/***************************************************************************/
-{
-  RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-    "Attempting to create managed instance for class %s.",
-    lookup_name.c_str());
-
-  if (!isClassLoaded(lookup_name)) {
-    loadLibraryForClass(lookup_name);
-  }
-
-  try {
-    std::string class_type = getClassType(lookup_name);
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader", "%s maps to real class type %s",
-      lookup_name.c_str(), class_type.c_str());
-
-    boost::shared_ptr<T> obj = lowlevel_class_loader_.createInstance<T>(class_type);
-
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "boost::shared_ptr to object of real type %s created.",
-      class_type.c_str());
-
-    return obj;
-  } catch (const class_loader::CreateClassException & ex) {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "Exception raised by low-level multi-library class loader when attempting "
-      "to create instance of class %s.",
-      lookup_name.c_str());
-    throw pluginlib::CreateClassException(ex.what());
-  }
-}
-#endif
-
 #if defined(HAS_CPP11_MEMORY) && HAS_CPP11_MEMORY
 template<class T>
 UniquePtr<T> ClassLoader<T>::createUniqueInstance(const std::string & lookup_name)
@@ -371,7 +336,16 @@ std::string ClassLoader<T>::extractPackageNameFromPackageXML(const std::string &
     return "";
   }
 
-  return package_name_node->GetText();
+  const char* package_name_node_txt = package_name_node->GetText();
+  if (NULL == package_name_node_txt) {
+    RCUTILS_LOG_ERROR_NAMED("pluginlib.ClassLoader",
+      "package.xml at %s has an invalid <name> tag! Cannot determine package "
+      "which exports plugin.",
+      package_xml_path.c_str());
+    return "";
+  }
+
+  return package_name_node_txt;
 }
 
 template<class T>
@@ -730,8 +704,15 @@ void ClassLoader<T>::processSingleXMLPluginFile(
             "' has no Root Element. This likely means the XML is malformed or missing.");
     return;
   }
-  if (!(strcmp(config->Value(), "library") == 0 ||
-    strcmp(config->Value(), "class_libraries") == 0))
+  const char* config_value = config->Value();
+  if (NULL == config_value) {
+      throw pluginlib::InvalidXMLException(
+              "XML Document '" + xml_file +
+              "' has an invalid Root Element. This likely means the XML is malformed or missing.");
+      return;
+  }
+  if (!(strcmp(config_value, "library") == 0 ||
+    strcmp(config_value, "class_libraries") == 0))
   {
     throw pluginlib::InvalidXMLException(
             "The XML document '" + xml_file + "' given to add must have either \"library\" or "
@@ -739,13 +720,19 @@ void ClassLoader<T>::processSingleXMLPluginFile(
     return;
   }
   // Step into the filter list if necessary
-  if (strcmp(config->Value(), "class_libraries") == 0) {
+  if (strcmp(config_value, "class_libraries") == 0) {
     config = config->FirstChildElement("library");
   }
 
   tinyxml2::XMLElement * library = config;
   while (library != NULL) {
-    std::string library_path = library->Attribute("path");
+    const char* path = library->Attribute("path");
+    if (NULL == path) {
+      RCUTILS_LOG_ERROR_NAMED("pluginlib.ClassLoader",
+        "Attribute 'path' in 'library' tag is missing in %s.", xml_file.c_str());
+      continue;
+    }
+    std::string library_path(path);
     if (0 == library_path.size()) {
       RCUTILS_LOG_ERROR_NAMED("pluginlib.ClassLoader",
         "Failed to find Path Attirbute in library element in %s", xml_file.c_str());
