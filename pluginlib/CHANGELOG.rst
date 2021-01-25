@@ -3,6 +3,11 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+5.0.0 (2021-01-25)
+------------------
+* Use rcpputils for the filesystem implementation. (`#212 <https://github.com/ros/pluginlib/issues/212>`_)
+* Contributors: Chris Lalancette
+
 4.1.2 (2020-12-08)
 ------------------
 * Check for NULL in XMLElement::Attribute
