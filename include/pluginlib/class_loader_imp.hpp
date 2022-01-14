@@ -40,28 +40,12 @@
 #include <cstdlib>
 #include <list>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
-
-/* This is a workaround to MSVC incorrectly reporting the __cplusplus version
- * as explained in:
- * https://blogs.msdn.microsoft.com/vcblog/2018/04/09/msvc-now-correctly-reports-__cplusplus/
- *
- * I'm hesitant to currently switch on the /Zc:__cplusplus switch, as there are
- * reports of code (incorrectly) assuming it should always be set to 199711L.
- */
-#if defined(_MSC_VER)
-# define HAS_CPP11_MEMORY (_MSC_VER >= 1900)
-#else
-# define HAS_CPP11_MEMORY (__cplusplus >= 201103L)
-#endif
-
-#if defined(HAS_CPP11_MEMORY) && HAS_CPP11_MEMORY
-# include <memory>
-#endif
 
 #include "ament_index_cpp/get_package_prefix.hpp"
 #include "ament_index_cpp/get_package_share_directory.hpp"
@@ -160,16 +144,13 @@ T * ClassLoader<T>::createClassInstance(const std::string & lookup_name, bool au
   }
 }
 
-#if defined(HAS_CPP11_MEMORY) && HAS_CPP11_MEMORY
 template<class T>
 std::shared_ptr<T> ClassLoader<T>::createSharedInstance(const std::string & lookup_name)
 /***************************************************************************/
 {
   return createUniqueInstance(lookup_name);
 }
-#endif
 
-#if defined(HAS_CPP11_MEMORY) && HAS_CPP11_MEMORY
 template<class T>
 UniquePtr<T> ClassLoader<T>::createUniqueInstance(const std::string & lookup_name)
 {
@@ -201,7 +182,6 @@ UniquePtr<T> ClassLoader<T>::createUniqueInstance(const std::string & lookup_nam
     throw pluginlib::CreateClassException(ex.what());
   }
 }
-#endif
 
 template<class T>
 T * ClassLoader<T>::createUnmanagedInstance(const std::string & lookup_name)
@@ -491,10 +471,10 @@ std::string ClassLoader<T>::getClassLibraryPath(const std::string & lookup_name)
 /***************************************************************************/
 {
   if (classes_available_.find(lookup_name) == classes_available_.end()) {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "Class %s has no mapping in classes_available_.",
-      lookup_name.c_str());
-    return "";
+    std::ostringstream error_msg;
+    error_msg << "Could not find library corresponding to plugin " << lookup_name <<
+      ". Make sure the plugin description XML file has the correct name of the library.";
+    throw pluginlib::LibraryLoadException(error_msg.str());
   }
   ClassMapIterator it = classes_available_.find(lookup_name);
   std::string library_name = it->second.library_name_;
@@ -516,7 +496,10 @@ std::string ClassLoader<T>::getClassLibraryPath(const std::string & lookup_name)
       return *it;
     }
   }
-  return "";
+  std::ostringstream error_msg;
+  error_msg << "Could not find library corresponding to plugin " << lookup_name <<
+    ". Make sure that the library '" << library_name << "' actually exists.";
+  throw pluginlib::LibraryLoadException(error_msg.str());
 }
 
 template<class T>
@@ -597,11 +580,13 @@ ClassLoader<T>::getPackageFromPluginXMLFilePath(const std::string & plugin_xml_f
       return extractPackageNameFromPackageXML(package_file_path);
     }
 
-    // Recursive case - hop one folder up
+    // Recursive case - hop one folder up and store current parent
+    // parent_path() returns the current path if we reached the root.
+    p = parent;
     parent = parent.parent_path();
 
     // Base case - reached root and cannot find what we're looking for
-    if (parent.string().empty()) {
+    if (parent.string().empty() || (p == parent)) {
       return "";
     }
   }
@@ -664,16 +649,6 @@ void ClassLoader<T>::loadLibraryForClass(const std::string & lookup_name)
   }
 
   std::string library_path = getClassLibraryPath(lookup_name);
-  if ("" == library_path) {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "No path could be found to the library containing %s.",
-      lookup_name.c_str());
-    std::ostringstream error_msg;
-    error_msg << "Could not find library corresponding to plugin " << lookup_name <<
-      ". Make sure the plugin description XML file has the correct name of the "
-      "library and that the library actually exists.";
-    throw pluginlib::LibraryLoadException(error_msg.str());
-  }
 
   try {
     lowlevel_class_loader_.loadLibrary(library_path);
