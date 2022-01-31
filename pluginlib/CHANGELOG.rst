@@ -3,45 +3,16 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-5.1.0 (2022-01-14)
+2.5.4 (2022-01-31)
 ------------------
-* Install includes to include/${PROJECT_NAME} and remove ament_target_dependencies calls (`#226 <https://github.com/ros/pluginlib/issues/226>`_)
-* Require <memory> (`#225 <https://github.com/ros/pluginlib/issues/225>`_)
-* Move LibraryLoadExceptions down a level for more accurate error messages (`#221 <https://github.com/ros/pluginlib/issues/221>`_)
-* Update maintainers to Chris Lalancette (`#223 <https://github.com/ros/pluginlib/issues/223>`_)
-* extend termination condition to avoid infinite loop if package.xml is not found (`#220 <https://github.com/ros/pluginlib/issues/220>`_)
-* Remove deprecated headers. (`#217 <https://github.com/ros/pluginlib/issues/217>`_)
-* Contributors: Alberto Soragna, Audrow Nash, Chris Lalancette, David V. Lu!!, Shane Loretz
+* Enable plugin testing (`#202 <https://github.com/ros/pluginlib/issues/202>`_)
+* Make the default filesystem lib c++fs unless otherwise specified (`#214 <https://github.com/ros/pluginlib/issues/214>`_)
+* Contributors: Ahmed Sobhy, Karsten Knese, Shane Loretz
 
-5.0.0 (2021-01-25)
+2.5.3 (2020-12-08)
 ------------------
-* Use rcpputils for the filesystem implementation. (`#212 <https://github.com/ros/pluginlib/issues/212>`_)
-* Contributors: Chris Lalancette
-
-4.1.2 (2020-12-08)
-------------------
-* Check for NULL in XMLElement::Attribute
-* Check for NULL in XMLElement::GetText
-* Check for NULL in XMLNode::Value
-* Remove unused variable output_library (`#211 <https://github.com/ros/pluginlib/issues/211>`_)
-* Make Chris a maintainer of pluginlib. (`#210 <https://github.com/ros/pluginlib/issues/210>`_)
-* Add QNX C++ fs library compiler option (`#205 <https://github.com/ros/pluginlib/issues/205>`_)
-* Contributors: Ahmed Sobhy, Chris Lalancette, Jeremie Deray, Shane Loretz
-
-4.1.1 (2020-08-27)
-------------------
-* Fix cmake 3.5 compatibility (`#203 <https://github.com/ros/pluginlib/issues/203>`_)
-* Contributors: Karsten Knese
-
-4.1.0 (2020-08-25)
-------------------
-* Add function for same-package pluginlib tests (`#201 <https://github.com/ros/pluginlib/issues/201>`_)
-* Contributors: Shane Loretz
-
-4.0.0 (2020-08-06)
-------------------
-* Remove deprecated boost functions (`#199 <https://github.com/ros/pluginlib/issues/199>`_)
-* Contributors: Shane Loretz
+* Add QNX C++ fs library compiler option (`#205 <https://github.com/ros/pluginlib/issues/205>`_) (`#213 <https://github.com/ros/pluginlib/issues/213>`_)
+* Contributors: Ahmed Sobhy
 
 2.5.2 (2020-05-26)
 ------------------
