@@ -20,21 +20,15 @@ find_package(TinyXML2 REQUIRED)  # provided by tinyxml2 upstream, or tinyxml2_ve
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
-target_link_libraries(${PROJECT_NAME} INTERFACE
-  ament_index_cpp::ament_index_cpp
-  class_loader::class_loader
-  rcutils::rcutils
-  rcpputils::rcpputils
-  tinyxml2::tinyxml2)
-
+  "$<INSTALL_INTERFACE:include>")
+ament_target_dependencies(${PROJECT_NAME} INTERFACE
+  ament_index_cpp class_loader rcutils rcpputils TinyXML2)
 ament_export_dependencies(ament_index_cpp class_loader rcutils rcpputils tinyxml2_vendor TinyXML2)
-
-ament_export_targets(export_${PROJECT_NAME})
+ament_export_include_directories(include)
+ament_export_targets(${PROJECT_NAME})
 
 install(
-  TARGETS ${PROJECT_NAME} EXPORT export_${PROJECT_NAME}
+  TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
 )
 
 install(
@@ -42,7 +36,10 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY include/ DESTINATION include/${PROJECT_NAME})
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
@@ -51,7 +48,10 @@ if(BUILD_TESTING)
 
   add_library(test_plugins SHARED ./test/test_plugins.cpp)
   target_compile_definitions(test_plugins PRIVATE "TEST_PLUGINLIB_FIXTURE_BUILDING_LIBRARY")
-  target_link_libraries(test_plugins ${PROJECT_NAME})
+  ament_target_dependencies(
+    test_plugins
+    class_loader
+  )
 
   include("cmake/pluginlib_enable_plugin_testing.cmake")
   pluginlib_enable_plugin_testing(
@@ -70,7 +70,15 @@ if(BUILD_TESTING)
     APPEND_ENV AMENT_PREFIX_PATH=${mock_install_path}
   )
   if(TARGET ${PROJECT_NAME}_unique_ptr_test)
-    target_link_libraries(${PROJECT_NAME}_unique_ptr_test ${PROJECT_NAME})
+    ament_target_dependencies(
+      ${PROJECT_NAME}_unique_ptr_test
+      class_loader
+      ament_index_cpp
+      rcpputils
+      rcutils
+      TinyXML2
+    )
+
     add_dependencies(${PROJECT_NAME}_unique_ptr_test "${mock_install_target}")
   endif()
 
@@ -79,9 +87,15 @@ if(BUILD_TESTING)
     APPEND_ENV AMENT_PREFIX_PATH=${mock_install_path}
   )
   if(TARGET ${PROJECT_NAME}_utest)
-    # Used, but not linked to test ${PROJECT_NAME}'s exports:
-    #   rcutils::rcutils
-    target_link_libraries(${PROJECT_NAME}_utest ${PROJECT_NAME})
+    ament_target_dependencies(
+      ${PROJECT_NAME}_utest
+      class_loader
+      ament_index_cpp
+      rcpputils
+      rcutils
+      TinyXML2
+    )
+
     add_dependencies(${PROJECT_NAME}_utest "${mock_install_target}")
   endif()
 

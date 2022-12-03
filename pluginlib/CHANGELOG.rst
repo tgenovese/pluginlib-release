@@ -3,21 +3,10 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-5.2.1 (2022-09-13)
+5.0.1 (2022-12-02)
 ------------------
-
-5.2.0 (2022-05-10)
-------------------
-
-5.1.0 (2022-01-14)
-------------------
-* Install includes to include/${PROJECT_NAME} and remove ament_target_dependencies calls (`#226 <https://github.com/ros/pluginlib/issues/226>`_)
-* Require <memory> (`#225 <https://github.com/ros/pluginlib/issues/225>`_)
-* Move LibraryLoadExceptions down a level for more accurate error messages (`#221 <https://github.com/ros/pluginlib/issues/221>`_)
-* Update maintainers to Chris Lalancette (`#223 <https://github.com/ros/pluginlib/issues/223>`_)
-* extend termination condition to avoid infinite loop if package.xml is not found (`#220 <https://github.com/ros/pluginlib/issues/220>`_)
-* Remove deprecated headers. (`#217 <https://github.com/ros/pluginlib/issues/217>`_)
-* Contributors: Alberto Soragna, Audrow Nash, Chris Lalancette, David V. Lu!!, Shane Loretz
+* extend termination condition to avoid infinite loop if package.xml is not found (`#243 <https://github.com/ros/pluginlib/issues/243>`_)
+* Contributors: Alberto Soragna
 
 5.0.0 (2021-01-25)
 ------------------
