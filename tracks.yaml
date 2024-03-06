@@ -251,4 +251,5 @@ tracks:
     ros_distro: rolling
     vcs_type: git
     vcs_uri: https://github.com/ros/pluginlib.git
-    version: :{auto}
+    version: 5.4.1
+    version_saved: :{auto}
