@@ -3,6 +3,9 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+5.5.0 (2024-04-26)
+------------------
+
 5.4.2 (2024-03-28)
 ------------------
 * Switch from rcpputils::fs to std::filesystem (`#254 <https://github.com/ros/pluginlib/issues/254>`_)
