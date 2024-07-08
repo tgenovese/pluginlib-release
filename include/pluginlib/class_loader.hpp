@@ -71,22 +71,6 @@ public:
 
   ~ClassLoader();
 
-  /// Create an instance of a desired class, optionally loading the associated library too.
-  /**
-   * \param lookup_name The name of the class to load
-   * \param auto_load Specifies whether or not to automatically load the
-   *   library containing the class, set to true by default.
-   * \throws pluginlib::LibraryLoadException when the library associated
-   *   with the class cannot be loaded
-   * \throws pluginlib::CreateClassException when the class cannot be instantiated
-   * \return An instance of the class
-   * \deprecated use either createInstance() or createUnmanagedInstance()
-   */
-  [[deprecated]]
-  T * createClassInstance(
-    const std::string & lookup_name,
-    bool auto_load = true);
-
   /// Create an instance of a desired class.
   /**
    * Implicitly calls loadLibraryForClass() to increment the library counter.
