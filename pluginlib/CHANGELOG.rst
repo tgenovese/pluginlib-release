@@ -3,6 +3,11 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+5.5.1 (2024-07-08)
+------------------
+* Removed deprecated method (`#256 <https://github.com/ros/pluginlib/issues/256>`_)
+* Contributors: Alejandro Hernández Cordero
+
 5.5.0 (2024-04-26)
 ------------------
 
