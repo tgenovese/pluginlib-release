@@ -38,6 +38,7 @@
 #define PLUGINLIB__CLASS_LOADER_IMP_HPP_
 
 #include <cstdlib>
+#include <filesystem>
 #include <list>
 #include <map>
 #include <memory>
@@ -52,7 +53,6 @@
 #include "ament_index_cpp/get_resource.hpp"
 #include "ament_index_cpp/get_resources.hpp"
 #include "class_loader/class_loader.hpp"
-#include "rcpputils/filesystem_helper.hpp"
 #include "rcpputils/shared_library.hpp"
 #include "rcutils/logging_macros.h"
 
@@ -110,38 +110,6 @@ ClassLoader<T>::~ClassLoader()
   RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
     "Destroying ClassLoader, base = %s, address = %p",
     getBaseClassType().c_str(), static_cast<void *>(this));
-}
-
-
-template<class T>
-T * ClassLoader<T>::createClassInstance(const std::string & lookup_name, bool auto_load)
-/***************************************************************************/
-{
-  // Note: This method is deprecated
-  RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-    "In deprecated call createClassInstance(), lookup_name = %s, auto_load = %i.",
-    (lookup_name.c_str()), auto_load);
-
-  if (auto_load && !isClassLoaded(lookup_name)) {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "Autoloading class library before attempting to create instance.");
-    loadLibraryForClass(lookup_name);
-  }
-
-  try {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "Attempting to create instance through low-level MultiLibraryClassLoader...");
-    T * obj = lowlevel_class_loader_.createUnmanagedInstance<T>(getClassType(lookup_name));
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "Instance created with object pointer = %p", static_cast<void *>(obj));
-
-    return obj;
-  } catch (const class_loader::CreateClassException & ex) {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
-      "CreateClassException about to be raised for class %s",
-      lookup_name.c_str());
-    throw pluginlib::CreateClassException(ex.what());
-  }
 }
 
 template<class T>
@@ -393,31 +361,27 @@ std::vector<std::string> ClassLoader<T>::getAllLibraryPathsToTry(
   }
   std::string stripped_library_name_alternative = stripAllButFileFromPath(library_name_alternative);
 
-  try {
-    // Setup the relative file paths to pair with the search directories above.
-    std::vector<std::string> all_relative_library_paths = {
-      rcpputils::get_platform_library_name(library_name),
-      rcpputils::get_platform_library_name(library_name_alternative),
-      rcpputils::get_platform_library_name(stripped_library_name),
-      rcpputils::get_platform_library_name(stripped_library_name_alternative)
-    };
-    std::vector<std::string> all_relative_debug_library_paths = {
-      rcpputils::get_platform_library_name(library_name, true),
-      rcpputils::get_platform_library_name(library_name_alternative, true),
-      rcpputils::get_platform_library_name(stripped_library_name, true),
-      rcpputils::get_platform_library_name(stripped_library_name_alternative, true)
-    };
+  // Setup the relative file paths to pair with the search directories above.
+  std::vector<std::string> all_relative_library_paths = {
+    rcpputils::get_platform_library_name(library_name),
+    rcpputils::get_platform_library_name(library_name_alternative),
+    rcpputils::get_platform_library_name(stripped_library_name),
+    rcpputils::get_platform_library_name(stripped_library_name_alternative)
+  };
+  std::vector<std::string> all_relative_debug_library_paths = {
+    rcpputils::get_platform_library_name(library_name, true),
+    rcpputils::get_platform_library_name(library_name_alternative, true),
+    rcpputils::get_platform_library_name(stripped_library_name, true),
+    rcpputils::get_platform_library_name(stripped_library_name_alternative, true)
+  };
 
-    for (auto && current_search_path : all_search_paths) {
-      for (auto && current_library_path : all_relative_library_paths) {
-        all_paths.push_back(current_search_path + path_separator + current_library_path);
-      }
-      for (auto && current_library_path : all_relative_debug_library_paths) {
-        all_paths.push_back(current_search_path + path_separator + current_library_path);
-      }
+  for (auto && current_search_path : all_search_paths) {
+    for (auto && current_library_path : all_relative_library_paths) {
+      all_paths.push_back(current_search_path + path_separator + current_library_path);
     }
-  } catch (const std::runtime_error & ex) {
-    throw std::runtime_error{ex.what()};
+    for (auto && current_library_path : all_relative_debug_library_paths) {
+      all_paths.push_back(current_search_path + path_separator + current_library_path);
+    }
   }
 
   for (auto && path : all_paths) {
@@ -488,12 +452,12 @@ std::string ClassLoader<T>::getClassLibraryPath(const std::string & lookup_name)
   RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader",
     "Iterating through all possible paths where %s could be located...",
     library_name.c_str());
-  for (auto it = paths_to_try.begin(); it != paths_to_try.end(); it++) {
-    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader", "Checking path %s ", it->c_str());
-    if (rcpputils::fs::exists(*it)) {
+  for (auto path_it = paths_to_try.begin(); path_it != paths_to_try.end(); path_it++) {
+    RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader", "Checking path %s ", path_it->c_str());
+    if (std::filesystem::exists(*path_it)) {
       RCUTILS_LOG_DEBUG_NAMED("pluginlib.ClassLoader", "Library %s found at explicit path %s.",
-        library_name.c_str(), it->c_str());
-      return *it;
+        library_name.c_str(), path_it->c_str());
+      return *path_it;
     }
   }
   std::ostringstream error_msg;
@@ -570,12 +534,12 @@ ClassLoader<T>::getPackageFromPluginXMLFilePath(const std::string & plugin_xml_f
   // 2. Extract name of package from package.xml
 
   std::string package_name;
-  rcpputils::fs::path p(plugin_xml_file_path);
-  rcpputils::fs::path parent = p.parent_path();
+  std::filesystem::path p(plugin_xml_file_path);
+  std::filesystem::path parent = p.parent_path();
 
   // Figure out exactly which package the passed XML file is exported by.
   while (true) {
-    if (rcpputils::fs::exists(parent / "package.xml")) {
+    if (std::filesystem::exists(parent / "package.xml")) {
       std::string package_file_path = (parent / "package.xml").string();
       return extractPackageNameFromPackageXML(package_file_path);
     }
@@ -598,7 +562,7 @@ template<class T>
 std::string ClassLoader<T>::getPathSeparator()
 /***************************************************************************/
 {
-  return std::string(1, rcpputils::fs::kPreferredSeparator);
+  return std::string(1, std::filesystem::path::preferred_separator);
 }
 
 
@@ -632,7 +596,7 @@ template<class T>
 std::string ClassLoader<T>::joinPaths(const std::string & path1, const std::string & path2)
 /***************************************************************************/
 {
-  rcpputils::fs::path p1(path1);
+  std::filesystem::path p1(path1);
   return (p1 / path2).string();
 }
 
@@ -710,7 +674,7 @@ void ClassLoader<T>::processSingleXMLPluginFile(
     std::string library_path(path);
     if (0 == library_path.size()) {
       RCUTILS_LOG_ERROR_NAMED("pluginlib.ClassLoader",
-        "Failed to find Path Attirbute in library element in %s", xml_file.c_str());
+        "Failed to find Path Attribute in library element in %s", xml_file.c_str());
       continue;
     }
 

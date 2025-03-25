@@ -71,22 +71,6 @@ public:
 
   ~ClassLoader();
 
-  /// Create an instance of a desired class, optionally loading the associated library too.
-  /**
-   * \param lookup_name The name of the class to load
-   * \param auto_load Specifies whether or not to automatically load the
-   *   library containing the class, set to true by default.
-   * \throws pluginlib::LibraryLoadException when the library associated
-   *   with the class cannot be loaded
-   * \throws pluginlib::CreateClassException when the class cannot be instantiated
-   * \return An instance of the class
-   * \deprecated use either createInstance() or createUnmanagedInstance()
-   */
-  [[deprecated]]
-  T * createClassInstance(
-    const std::string & lookup_name,
-    bool auto_load = true);
-
   /// Create an instance of a desired class.
   /**
    * Implicitly calls loadLibraryForClass() to increment the library counter.
@@ -123,7 +107,7 @@ public:
   /**
    * Implicitly calls loadLibraryForClass() to increment the library counter.
    *
-   * \attention The ownership is transfered to the caller, which is responsible
+   * \attention The ownership is transferred to the caller, which is responsible
    *   for deleting the instance and calling unloadLibraryForClass()
    *   (in order to decrement the associated library counter and unloading it
    *   if it is no more used).
@@ -291,7 +275,7 @@ private:
   /// Get the package name from a path to a plugin XML file.
   std::string getPackageFromPluginXMLFilePath(const std::string & path);
 
-  /// Join two filesystem paths together utilzing appropriate path separator.
+  /// Join two filesystem paths together utilizing appropriate path separator.
   std::string joinPaths(const std::string & path1, const std::string & path2);
 
   /// Parse a plugin XML file.

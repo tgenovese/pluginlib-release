@@ -3,6 +3,53 @@ Changelog for package pluginlib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+5.5.2 (2024-11-20)
+------------------
+* Fix Minor Spelling Mistakes (`#260 <https://github.com/ros/pluginlib/issues/260>`_)
+* Contributors: David V. Lu!!
+
+5.5.1 (2024-07-08)
+------------------
+* Removed deprecated method (`#256 <https://github.com/ros/pluginlib/issues/256>`_)
+* Contributors: Alejandro Hernández Cordero
+
+5.5.0 (2024-04-26)
+------------------
+
+5.4.2 (2024-03-28)
+------------------
+* Switch from rcpputils::fs to std::filesystem (`#254 <https://github.com/ros/pluginlib/issues/254>`_)
+* Contributors: Christophe Bedard
+
+5.4.1 (2024-01-24)
+------------------
+* Remove redundant throw of a std::runtime_error (`#232 <https://github.com/ros/pluginlib/issues/232>`_)
+* Contributors: Hunter L. Allen
+
+5.4.0 (2023-12-26)
+------------------
+* Update to C++17 (`#251 <https://github.com/ros/pluginlib/issues/251>`_)
+* Contributors: Chris Lalancette
+
+5.3.1 (2023-11-06)
+------------------
+* Fix wShadow compile warning (`#250 <https://github.com/ros/pluginlib/issues/250>`_)
+* Contributors: Steve Macenski
+
+5.3.0 (2023-04-28)
+------------------
+
+5.2.2 (2023-03-01)
+------------------
+* Update maintainers
+* Contributors: Audrow Nash
+
+5.2.1 (2022-09-13)
+------------------
+
+5.2.0 (2022-05-10)
+------------------
+
 5.1.0 (2022-01-14)
 ------------------
 * Install includes to include/${PROJECT_NAME} and remove ament_target_dependencies calls (`#226 <https://github.com/ros/pluginlib/issues/226>`_)
@@ -107,7 +154,7 @@ Changelog for package pluginlib
 * remove extra semicolon to fix pedantic warning (`#103 <https://github.com/ros/pluginlib/issues/103>`_)
 * use new class_loader header names (`#99 <https://github.com/ros/pluginlib/issues/99>`_)
 * adjust library search to work on windows, warn about lib prefix (`#97 <https://github.com/ros/pluginlib/issues/97>`_)
-* vs2015 doesnt support __has_include, VS2015 and 2017 have both <files… (`#96 <https://github.com/ros/pluginlib/issues/96>`_)
+* vs2015 doesn't support __has_include, VS2015 and 2017 have both <files… (`#96 <https://github.com/ros/pluginlib/issues/96>`_)
 * move pluginlib in its own folder (port 83 to ros2 branch) (`#95 <https://github.com/ros/pluginlib/issues/95>`_)
 * Contributors: Mikael Arguedas, William Woodall, jerry73204
 
@@ -374,7 +421,7 @@ Changelog for package pluginlib
 * fixed tinyxml
 * converting to unary stack (separated from common)
 * applied patch from 4923, to support boost 1.46
-* patch from Nick Butko osx compatability
+* patch from Nick Butko osx compatibility
 * adding unittest melonee forgot to commit
 * adding pluginlib tests
 * patch for osx linking `#4094 <https://github.com/ros/pluginlib/issues/4094>`_
@@ -389,7 +436,7 @@ Changelog for package pluginlib
 * adding warning about deprecated macro PLUGINLIB_REGISTER_CLASS
 * pluginlib now takes pkg/type arguments, new macro PLUGINLIB_DECLARE_CLASS
 * pluginlib now robust to malformed manifests
-* Adding more descriptive error messages when libaries fail to load
+* Adding more descriptive error messages when libraries fail to load
 * Remove use of deprecated rosbuild macros
 * doc review completed http://www.ros.org/wiki/pluginlib/Reviews/2009-10-06_Doc_Review
 * fixing documentation link
