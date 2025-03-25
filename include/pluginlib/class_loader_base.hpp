@@ -39,8 +39,7 @@ namespace pluginlib
 /**
  * This allows the writing of non-templated manager code
  * which can call all the administrative functions of ClassLoaders -
- * everything except createClassInstance(), createInstance()
- * and createUnmanagedInstance().
+ * everything except createInstance() and createUnmanagedInstance().
  */
 class ClassLoaderBase
 {
