@@ -1,3 +1,26 @@
+## pluginlib (jazzy) - 5.4.2-3
+
+The packages in the `pluginlib` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy --override-release-repository-push-url git@github.com:tgenovese/pluginlib-release.git pluginlib` on `Tue, 29 Jul 2025 14:16:19 -0000`
+
+The `pluginlib` package was released.
+
+Version of package(s) in repository `pluginlib`:
+
+- upstream repository: https://github.com/ros/pluginlib.git
+- release repository: https://github.com/tgenovese/pluginlib-release.git
+- rosdistro version: `5.4.2-2`
+- old version: `5.4.2-2`
+- new version: `5.4.2-3`
+
+Versions of tools used:
+
+- bloom version: `0.13.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## pluginlib (rolling) - 5.7.0-1
 
 The packages in the `pluginlib` repository were released into the `rolling` distro by running `/home/cottsay/infra_ws/install/bloom/bin/bloom-release pluginlib -r rolling` on `Fri, 25 Apr 2025 21:08:49 -0000`
