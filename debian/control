@@ -1,0 +1,13 @@
+Source: ros-jazzy-pluginlib
+Section: misc
+Priority: optional
+Maintainer: Chris Lalancette <clalancette@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-ament-cmake-gtest <!nocheck>, ros-jazzy-ament-index-cpp, ros-jazzy-class-loader, ros-jazzy-rcpputils, ros-jazzy-rcutils, ros-jazzy-tinyxml2-vendor, ros-jazzy-ros-workspace
+Homepage: http://www.ros.org/wiki/pluginlib
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-pluginlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-ament-index-cpp, ros-jazzy-class-loader, ros-jazzy-rcpputils, ros-jazzy-rcutils, ros-jazzy-tinyxml2-vendor, ros-jazzy-ros-workspace
+Description: The pluginlib package provides tools for writing and dynamically loading plugins using the ROS build infrastructure.
+ To work, these tools require plugin providers to register their plugins in the package.xml of their package.
